@@ -1,15 +1,17 @@
 ﻿using BepInEx;
 using MonoMod.Cil;
 using R2API;
+using R2API.Utils;
 using RoR2;
 using RoR2.Artifacts;
 using System;
 
 namespace GestureEnigma
 {
-    [BepInDependency("com.bepis.r2api")]
-    [R2API.Utils.R2APISubmoduleDependency(nameof(LanguageAPI))]
-    [BepInPlugin("com.Moffein.GestureEnigma", "GestureEnigma", "1.0.0")]
+    [BepInDependency(R2API.R2API.PluginGUID)]
+    [BepInDependency(R2API.LanguageAPI.PluginGUID)]
+    [BepInPlugin("com.Moffein.GestureEnigma", "GestureEnigma", "1.0.2")]
+    [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class Class1 : BaseUnityPlugin
     {
         public static bool autofireEnabled = false;
@@ -20,7 +22,7 @@ namespace GestureEnigma
 
             if (!autofireEnabled)
             {
-                IL.RoR2.EquipmentSlot.FixedUpdate += (il) =>
+                IL.RoR2.EquipmentSlot.MyFixedUpdate += (il) =>
                 {
                     ILCursor c = new ILCursor(il);
                     c.GotoNext(
